@@ -14,7 +14,11 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #1a202c; /* Fundo escuro */
+            /* Fundo com imagem usando jsDelivr */
+            background-image: url('https://cdn.jsdelivr.net/gh/FilhodeGleb/game1@7de7fd1d2d5b07b38ae8eeda9bfd32b4dd99a2bb/imagens/Gemini_Generated_Image_t549uct549uct549.png');
+            background-size: cover; /* Cobre todo o corpo */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Não repete a imagem */
             font-family: 'Inter', sans-serif; /* Fonte Inter */
         }
 
@@ -26,7 +30,7 @@
             position: relative;
             border: 2px solid #4a5568; /* Borda cinza */
             overflow: hidden; /* Garante que o personagem não saia da área visível */
-            background-color: #2d3748; /* Fundo do palco */
+            background-color: rgba(45, 55, 72, 0.5); /* Fundo do palco semi-transparente */
             border-radius: 0.5rem; /* Cantos arredondados */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
         }
@@ -35,7 +39,11 @@
         #ground {
             width: 100%;
             height: 20px;
-            background-color: #38a169; /* Verde para o chão */
+            /* Fundo com imagem para o chão usando jsDelivr */
+            background-image: url('https://cdn.jsdelivr.net/gh/FilhodeGleb/game1@7de7fd1d2d5b07b38ae8eeda9bfd32b4dd99a2bb/imagens/base.png');
+            background-size: cover; /* Cobre a largura e altura do chão */
+            background-repeat: no-repeat; /* Não repete a imagem */
+            background-position: center bottom; /* Posiciona a imagem do chão */
             position: absolute;
             bottom: 0;
             left: 0;
@@ -62,6 +70,7 @@
             font-size: 1.125rem; /* Tamanho da fonte */
             text-align: center;
             width: 100%;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Sombra para o texto */
         }
     </style>
 </head>
