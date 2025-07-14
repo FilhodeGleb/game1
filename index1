@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Linear de Personagem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos básicos para o corpo da página */
+        body {
+            margin: 0;
+            overflow: hidden; /* Esconde barras de rolagem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a202c; /* Fundo escuro */
+            font-family: 'Inter', sans-serif; /* Fonte Inter */
+        }
+
+        /* Contêiner principal do jogo */
+        #game-container {
+            width: 90%; /* Largura responsiva */
+            max-width: 800px; /* Largura máxima */
+            height: 200px; /* Altura do palco */
+            position: relative;
+            border: 2px solid #4a5568; /* Borda cinza */
+            overflow: hidden; /* Garante que o personagem não saia da área visível */
+            background-color: #2d3748; /* Fundo do palco */
+            border-radius: 0.5rem; /* Cantos arredondados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        /* Estilo para o chão */
+        #ground {
+            width: 100%;
+            height: 20px;
+            background-color: #38a169; /* Verde para o chão */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Estilo para o personagem */
+        #character {
+            width: 50px;
+            height: 80px;
+            background-color: #63b3ed; /* Azul claro para o personagem */
+            position: absolute;
+            bottom: 20px; /* Acima do chão */
+            left: 0; /* Posição inicial */
+            border-radius: 0.375rem; /* Cantos arredondados */
+            transition: left 0.05s linear; /* Animação suave de movimento */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para o personagem */
+        }
+
+        /* Estilos para a mensagem de instrução */
+        #instructions {
+            position: absolute;
+            top: 20px;
+            color: #cbd5e0; /* Cor do texto */
+            font-size: 1.125rem; /* Tamanho da fonte */
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions">Use as setas ← e → para mover o personagem!</div>
+    <div id="game-container">
+        <div id="character"></div>
+        <div id="ground"></div>
+    </div>
+
+    <script>
+        // Obtém referências aos elementos HTML
+        const character = document.getElementById('character');
+        const gameContainer = document.getElementById('game-container');
+
+        // Obtém as dimensões do contêiner do jogo e do personagem
+        // offsetWidth retorna a largura do elemento, incluindo padding e borda
+        // Alterado de 'const' para 'let' para permitir a reatribuição no redimensionamento da janela
+        let gameContainerWidth = gameContainer.offsetWidth;
+        const characterWidth = character.offsetWidth;
+
+        // Posição inicial do personagem (em pixels)
+        let characterPosition = 0;
+        // Velocidade de movimento do personagem (em pixels por passo)
+        const moveSpeed = 15;
+
+        /**
+         * Move o personagem para a direção especificada (left ou right).
+         * @param {string} direction - A direção do movimento ('left' ou 'right').
+         */
+        function moveCharacter(direction) {
+            if (direction === 'left') {
+                characterPosition -= moveSpeed;
+            } else if (direction === 'right') {
+                characterPosition += moveSpeed;
+            }
+
+            // Limita o personagem dentro dos limites do gameContainer
+            // Garante que o personagem não saia da borda esquerda
+            if (characterPosition < 0) {
+                characterPosition = 0;
+            }
+            // Garante que o personagem não saia da borda direita
+            // A posição máxima é a largura do contêiner menos a largura do personagem
+            if (characterPosition > gameContainerWidth - characterWidth) {
+                characterPosition = gameContainerWidth - characterWidth;
+            }
+
+            // Atualiza a propriedade 'left' do estilo do personagem para movê-lo
+            character.style.left = characterPosition + 'px';
+        }
+
+        // Adiciona um listener de evento para detectar quando uma tecla é pressionada
+        document.addEventListener('keydown', (event) => {
+            // Verifica se a tecla pressionada é a seta para a esquerda
+            if (event.key === 'ArrowLeft') {
+                moveCharacter('left');
+            } 
+            // Verifica se a tecla pressionada é a seta para a direita
+            else if (event.key === 'ArrowRight') {
+                moveCharacter('right');
+            }
+        });
+
+        // Adiciona um listener para garantir que a largura do contêiner seja atualizada
+        // caso a janela seja redimensionada, para manter a responsividade.
+        window.addEventListener('resize', () => {
+            // Atualiza a largura do contêiner do jogo
+            gameContainerWidth = gameContainer.offsetWidth;
+            // Garante que o personagem permaneça dentro dos limites após o redimensionamento
+            if (characterPosition > gameContainerWidth - characterWidth) {
+                characterPosition = gameContainerWidth - characterWidth;
+                character.style.left = characterPosition + 'px';
+            }
+        });
+    </script>
+</body>
+</html>
